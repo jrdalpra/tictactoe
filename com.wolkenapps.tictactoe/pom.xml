@@ -22,7 +22,7 @@
 
 	<modules>
 		<module>logic</module>
-		<module>com.wolkenapps.tictactoe.swing</module>
+		<module>swing</module>
 	</modules>
 
 	<dependencyManagement>
