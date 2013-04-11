@@ -11,44 +11,64 @@ import com.wolkenapps.tictactoe.winnerverifiers.VerticalWinnerVerifier;
 
 public class TicTacToeGameController {
 
-   private TicTacToeGame game;
-   private Mark          mark;
+    private TicTacToeGame game;
 
-   public boolean theGameHasStarted() {
-      return game != null && !game.hasEnded();
-   }
+    private Mark          mark;
 
-   public void startsTheGame() {
-      game = new TicTacToeGame(withAllVerifiers());
-      mark = Mark.BLANK;
-   }
+    public boolean theGameHasStarted() {
+        return game != null && !game.hasEnded();
+    }
 
-   private Iterable<WinnerVerifier> withAllVerifiers() {
-      return Arrays.<WinnerVerifier> asList(new DiagonalWinnerVerifier(),
-                                            new HorizontalWinnerVerificer(),
-                                            new VerticalWinnerVerifier());
-   }
+    public void startsTheGame() {
+        game = new TicTacToeGame(withAllVerifiers());
+        mark = Mark.BLANK;
+    }
 
-   public boolean theGameHasEnded() {
-      return game != null && game.hasEnded();
-   }
+    private Iterable<WinnerVerifier> withAllVerifiers() {
+        return Arrays.<WinnerVerifier> asList(new DiagonalWinnerVerifier(),
+                                              new HorizontalWinnerVerificer(),
+                                              new VerticalWinnerVerifier());
+    }
 
-   public Mark putTheNextMarkAt(Point location) {
-      if (!theGameHasStarted())
-         throw new TicTacToeGame.NotStarted();
-      game.putAMarkAt(location, nextMark());
-      return mark;
-   }
+    public boolean theGameHasEnded() {
+        return game != null && game.hasEnded();
+    }
 
-   private Mark nextMark() {
-      return mark = (mark.equals(CROSS) ? NOUGHT : CROSS);
-   }
+    public void putTheNextMarkAt(Point location) {
+        assertThatGameHasStared();
+        game.putAMarkAt(location, nextMark());
+        mark = game.getMarkAt(location);
+    }
 
-   public WinnerPoints getWinnerPoints() {
-      return game.getWinnerPoints();
-   }
+    private Mark nextMark() {
+        return mark.equals(CROSS) ? NOUGHT : CROSS;
+    }
 
-   public boolean theGameHasDrawn() {
-      return game != null && game.hasDrawn();
-   }
+    public WinnerPoints getWinnerPoints() {
+        return game.getWinnerPoints();
+    }
+
+    public boolean theGameHasDrawn() {
+        return game != null && game.hasDrawn();
+    }
+
+    public Mark getLastMark() {
+        return mark;
+    }
+
+    public Mark getMarkAt(Point location) {
+        assertThatGameHasStared();
+        return game.getMarkAt(location);
+    }
+
+    private void assertThatGameHasStared() {
+        if (!theGameHasStarted())
+            throw new TicTacToeGame.NotStarted();
+    }
+
+    public void stopTheGame() {
+        game = null;
+        mark = null;
+    }
+
 }
