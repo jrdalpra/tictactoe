@@ -36,11 +36,11 @@ public class TicTacToeGameController {
 
     public void putTheNextMarkAt(Point location) {
         assertThatGameHasStared();
-        game.putAMarkAt(location, nextMark());
+        game.putAMarkAt(location, getPossibleNextMark());
         mark = game.getMarkAt(location);
     }
 
-    private Mark nextMark() {
+    public Mark getPossibleNextMark() {
         return mark.equals(CROSS) ? NOUGHT : CROSS;
     }
 

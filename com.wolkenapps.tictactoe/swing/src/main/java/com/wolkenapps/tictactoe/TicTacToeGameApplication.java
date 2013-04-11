@@ -27,295 +27,317 @@ import com.wolkenapps.tictactoe.ia.RobotPlayer;
 
 public class TicTacToeGameApplication {
 
-    @SuppressWarnings("serial")
-    public class ButtonNotFound extends RuntimeException {
-    }
+   @SuppressWarnings("serial")
+   public class ButtonNotFound extends RuntimeException {
+   }
 
-    private static final String     POINT = Point.class.getName();
+   private static final String     POINT = Point.class.getName();
 
-    private TicTacToeGameController controller;
+   private TicTacToeGameController controller;
 
-    private JFrame                  frame;
+   private JFrame                  frame;
 
-    private JPanel                  centerPanel;
+   private JPanel                  centerPanel;
 
-    private JPanel                  eastPanel;
+   private JPanel                  eastPanel;
 
-    private JPanel                  southPanel;
+   private JPanel                  southPanel;
 
-    private JCheckBox               useComputerAOpponentCheckBox;
+   private JCheckBox               useComputerAsOpponentCheckBox;
 
-    private JCheckBox               computerMustPlayFirstCheckBox;
+   private JCheckBox               computerMustPlayFirstCheckBox;
 
-    private List<JButton>           pointButtons;
+   private List<JButton>           pointButtons;
 
-    private JButton                 startGameButton;
+   private JButton                 startGameButton;
 
-    private JButton                 stopGameButton;
+   private JButton                 stopGameButton;
 
-    private JLabel                  messageLabel;
+   private JLabel                  messageLabel;
 
-    private RobotPlayer             robot;
+   private RobotPlayer             robot;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    TicTacToeGameApplication window = new TicTacToeGameApplication();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+   /**
+    * Launch the application.
+    */
+   public static void main(String[] args) {
+      EventQueue.invokeLater(new Runnable() {
+         public void run() {
+            try {
+               TicTacToeGameApplication window = new TicTacToeGameApplication();
+               window.frame.setVisible(true);
+            } catch (Exception e) {
+               e.printStackTrace();
             }
-        });
-    }
+         }
+      });
+   }
 
-    public TicTacToeGameApplication() {
-        initialize();
-    }
+   public TicTacToeGameApplication() {
+      initialize();
+   }
 
-    private void initialize() {
-        controller = new TicTacToeGameController();
-        initializeTheUserInterface();
-    }
+   private void initialize() {
+      controller = new TicTacToeGameController();
+      initializeTheUserInterface();
+   }
 
-    private void initializeTheUserInterface() {
-        initializeTheFrame();
-        initializeTheCentralPanel();
-        initializeTheEastPanel();
-        initializeTheSouthPanel();
-    }
+   private void initializeTheUserInterface() {
+      initializeTheFrame();
+      initializeTheCentralPanel();
+      initializeTheEastPanel();
+      initializeTheSouthPanel();
+   }
 
-    private void initializeTheEastPanel() {
-        createTheEastPanel();
-        createTheStartAndStopButtonPanel();
-        createOptionsAtEastPanel();
-    }
+   private void initializeTheEastPanel() {
+      createTheEastPanel();
+      createTheStartAndStopButtonPanel();
+      createOptionsAtEastPanel();
+   }
 
-    private void createTheStartAndStopButtonPanel() {
-        JPanel startAndStopButtonsPanel;
-        eastPanel.add(startAndStopButtonsPanel = new JPanel(new BorderLayout()), SOUTH);
-        startAndStopButtonsPanel.add(theStopButton(), NORTH);
-        startAndStopButtonsPanel.add(theStartButton(), SOUTH);
-    }
+   private void createTheStartAndStopButtonPanel() {
+      JPanel startAndStopButtonsPanel;
+      eastPanel.add(startAndStopButtonsPanel = new JPanel(new BorderLayout()), SOUTH);
+      startAndStopButtonsPanel.add(theStopButton(), NORTH);
+      startAndStopButtonsPanel.add(theStartButton(), SOUTH);
+   }
 
-    private void createTheEastPanel() {
-        frame.getContentPane().add(eastPanel = new JPanel(), EAST);
-        eastPanel.setLayout(new BorderLayout());
-    }
+   private void createTheEastPanel() {
+      frame.getContentPane().add(eastPanel = new JPanel(), EAST);
+      eastPanel.setLayout(new BorderLayout());
+   }
 
-    private JButton theStartButton() {
-        startGameButton = new JButton("Start Game");
-        startGameButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                startTheGame();
-            }
-        });
-        return startGameButton;
-    }
+   private JButton theStartButton() {
+      startGameButton = new JButton("Start Game");
+      startGameButton.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            startTheGame();
+         }
+      });
+      return startGameButton;
+   }
 
-    private JButton theStopButton() {
-        stopGameButton = new JButton("Stop Game");
-        stopGameButton.setEnabled(false);
-        stopGameButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                stopTheGame();
-            }
-        });
-        return stopGameButton;
-    }
+   private JButton theStopButton() {
+      stopGameButton = new JButton("Stop Game");
+      stopGameButton.setEnabled(false);
+      stopGameButton.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            stopTheGame();
+         }
+      });
+      return stopGameButton;
+   }
 
-    protected void stopTheGame() {
-        controller.stopTheGame();
-        setEnabledOptions(true);
-        setEnabledAllPointButtons(false);
-        enableDisableStartAndStopButton();
-    }
+   protected void stopTheGame() {
+      controller.stopTheGame();
+      setEnabledOptions(true);
+      setEnabledAllPointButtons(false);
+      enableDisableStartAndStopButton();
+   }
 
-    private void createOptionsAtEastPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(useComputerAOpponentCheckBox = new JCheckBox("Computer as Opponent"));
-        panel.add(computerMustPlayFirstCheckBox = new JCheckBox("Computer Play First"));
-        eastPanel.add(panel, WEST);
-    }
+   private void createOptionsAtEastPanel() {
+      JPanel panel = new JPanel();
+      panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+      panel.add(theUseComputerAsOpponentCheckBox());
+      panel.add(theComputerMustPlayFirstCheckBox());
+      eastPanel.add(panel, WEST);
+   }
 
-    private void initializeTheCentralPanel() {
-        frame.getContentPane().add(centerPanel = new JPanel(new GridLayout(3, 3, 0, 0)), CENTER);
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        pointButtons = asList(aButtonAt(TOP_LEFT),
-                              aButtonAt(TOP_CENTER),
-                              aButtonAt(TOP_RIGHT),
-                              aButtonAt(MIDDLE_LEFT),
-                              aButtonAt(MIDDLE_CENTER),
-                              aButtonAt(MIDDLE_RIGHT),
-                              aButtonAt(BOTTOM_LEFT),
-                              aButtonAt(BOTTOM_CENTER),
-                              aButtonAt(BOTTOM_RIGHT));
-    }
+   private JCheckBox theUseComputerAsOpponentCheckBox() {
+      useComputerAsOpponentCheckBox = new JCheckBox("Computer as Opponent");
+      useComputerAsOpponentCheckBox.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            handleSelectionOfUseComputerAsOpponentCheckBox();
+         }
+      });
+      return useComputerAsOpponentCheckBox;
+   }
 
-    private JButton aButtonAt(final Point point) {
-        final JButton button = new JButton("");
-        button.setEnabled(false);
-        button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        button.putClientProperty(POINT, point);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                playAt(point, button);
-            }
-        });
-        centerPanel.add(button);
-        return button;
-    }
+   private JCheckBox theComputerMustPlayFirstCheckBox() {
+      computerMustPlayFirstCheckBox = new JCheckBox("Computer Play First");
+      computerMustPlayFirstCheckBox.setEnabled(false);
+      return computerMustPlayFirstCheckBox;
+   }
 
-    private void initializeTheFrame() {
-        frame = new JFrame();
-        frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new BorderLayout(0, 0));
+   private void initializeTheCentralPanel() {
+      frame.getContentPane().add(centerPanel = new JPanel(new GridLayout(3, 3, 0, 0)), CENTER);
+      centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+      pointButtons = asList(aButtonAt(TOP_LEFT),
+                            aButtonAt(TOP_CENTER),
+                            aButtonAt(TOP_RIGHT),
+                            aButtonAt(MIDDLE_LEFT),
+                            aButtonAt(MIDDLE_CENTER),
+                            aButtonAt(MIDDLE_RIGHT),
+                            aButtonAt(BOTTOM_LEFT),
+                            aButtonAt(BOTTOM_CENTER),
+                            aButtonAt(BOTTOM_RIGHT));
+   }
 
-    }
+   private JButton aButtonAt(final Point point) {
+      final JButton button = new JButton("");
+      button.setEnabled(false);
+      button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      button.putClientProperty(POINT, point);
+      button.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            playAt(point, button);
+         }
+      });
+      centerPanel.add(button);
+      return button;
+   }
 
-    private void initializeTheSouthPanel() {
-        frame.getContentPane().add(southPanel = new JPanel(), BorderLayout.SOUTH);
-        southPanel.add(messageLabel = new JLabel(""));
-    }
+   private void initializeTheFrame() {
+      frame = new JFrame();
+      frame.setBounds(100, 100, 450, 300);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
-    private void startTheGame() {
-        controller.startsTheGame();
-        setEnabledOptionsAndCenterPanel(controller.theGameHasStarted());
-        enableDisableStartAndStopButton();
-        clearAllPointButtons();
-        showMessage(null);
-        createTheRobot();
-        tellToRobotMakeTheFirstMove();
-    }
+   }
 
-    private void createTheRobot() {
-        robot = new RobotPlayer(controller, allAvaiableMarkPutters());
-    }
+   private void initializeTheSouthPanel() {
+      frame.getContentPane().add(southPanel = new JPanel(), BorderLayout.SOUTH);
+      southPanel.add(messageLabel = new JLabel(""));
+   }
 
-    private Iterable<MarkPutter> allAvaiableMarkPutters() {
-        return MarkPuttersFactory.getAllPossibleMarkPutters();
-    }
+   private void startTheGame() {
+      controller.startsTheGame();
+      setEnabledOptionsAndCenterPanel(controller.theGameHasStarted());
+      enableDisableStartAndStopButton();
+      clearAllPointButtons();
+      showMessage(null);
+      createTheRobot();
+      tellToRobotMakeTheFirstMove();
+   }
 
-    private void tellToRobotMakeTheFirstMove() {
-        if (!theRobotMustMakeTheFirstMove())
-            return;
-        tellToRobotMakeSomeMove();
-    }
+   private void createTheRobot() {
+      robot = new RobotPlayer(controller, allAvaiableMarkPutters());
+   }
 
-    private void tellToRobotMakeSomeMove() {
-        if (!isTheRobotTheOpponent())
-            return;
-        robot.putSomeMarkInTheGame();
-        printTheMarkAt(findAButtonAt(robot.getLastPoint()));
-    }
+   private Iterable<MarkPutter> allAvaiableMarkPutters() {
+      return MarkPuttersFactory.getAllPossibleMarkPutters();
+   }
 
-    private boolean theRobotMustMakeTheFirstMove() {
-        return computerMustPlayFirstCheckBox.isSelected();
-    }
+   private void tellToRobotMakeTheFirstMove() {
+      if (!theRobotMustMakeTheFirstMove())
+         return;
+      tellToRobotMakeSomeMove();
+   }
 
-    private boolean isTheRobotTheOpponent() {
-        return useComputerAOpponentCheckBox.isSelected();
-    }
+   private void tellToRobotMakeSomeMove() {
+      if (!isTheRobotTheOpponent() || controller.theGameHasEnded())
+         return;
+      robot.putSomeMarkInTheGame();
+      printTheMarkAt(findAButtonAt(robot.getLastPoint()));
+   }
 
-    private void setEnabledOptionsAndCenterPanel(boolean theGameHasStarted) {
-        setEnabledAllPointButtons(theGameHasStarted);
-        setEnabledOptions(!theGameHasStarted);
-    }
+   private boolean theRobotMustMakeTheFirstMove() {
+      return computerMustPlayFirstCheckBox.isSelected();
+   }
 
-    private void enableDisableStartAndStopButton() {
-        startGameButton.setEnabled(!controller.theGameHasStarted());
-        stopGameButton.setEnabled(controller.theGameHasStarted());
-    }
+   private boolean isTheRobotTheOpponent() {
+      return useComputerAsOpponentCheckBox.isSelected();
+   }
 
-    private void setEnabledOptions(boolean enabled) {
-        useComputerAOpponentCheckBox.setEnabled(enabled);
-        computerMustPlayFirstCheckBox.setEnabled(enabled);
-    }
+   private void setEnabledOptionsAndCenterPanel(boolean theGameHasStarted) {
+      setEnabledAllPointButtons(theGameHasStarted);
+      setEnabledOptions(!theGameHasStarted);
+   }
 
-    private void clearAllPointButtons() {
-        for (JButton button : pointButtons)
-            clearOnPointButton(button);
-    }
+   private void enableDisableStartAndStopButton() {
+      startGameButton.setEnabled(!controller.theGameHasStarted());
+      stopGameButton.setEnabled(controller.theGameHasStarted());
+   }
 
-    private void clearOnPointButton(JButton button) {
-        button.setText("");
-        button.setBackground(null);
-    }
+   private void setEnabledOptions(boolean enabled) {
+      useComputerAsOpponentCheckBox.setEnabled(enabled);
+      computerMustPlayFirstCheckBox.setEnabled(enabled && useComputerAsOpponentCheckBox.isSelected());
+   }
 
-    private void setEnabledAllPointButtons(boolean enabled) {
-        for (JButton button : pointButtons)
-            button.setEnabled(enabled);
-    }
+   private void clearAllPointButtons() {
+      for (JButton button : pointButtons)
+         clearOnPointButton(button);
+   }
 
-    private void playAt(Point location, JButton pressed) {
-        putTheMarkAt(location);
-        printTheMarkAt(pressed);
-        ifIsPossibleShowTheEndedGameInfoAndRestoreUI();
-        tellToRobotMakeSomeMove();
-    }
+   private void clearOnPointButton(JButton button) {
+      button.setText("");
+      button.setBackground(null);
+   }
 
-    private void ifIsPossibleShowTheEndedGameInfoAndRestoreUI() {
-        if (!controller.theGameHasEnded())
-            return;
-        showToTheUsersTheWinnerPath();
-        showToTheUsersIfThereIsADraw();
-        endTheGame();
-    }
+   private void setEnabledAllPointButtons(boolean enabled) {
+      for (JButton button : pointButtons)
+         button.setEnabled(enabled);
+   }
 
-    private void endTheGame() {
-        setEnabledAllPointButtons(false);
-        setEnabledOptions(true);
-        enableDisableStartAndStopButton();
-    }
+   private void playAt(Point location, JButton pressed) {
+      putTheMarkAt(location);
+      printTheMarkAt(pressed);
+      tellToRobotMakeSomeMove();
+      ifIsPossibleShowTheEndedGameInfoAndRestoreUI();
+   }
 
-    private void showToTheUsersIfThereIsADraw() {
-        if (!controller.theGameHasDrawn())
-            return;
-        setEnabledAllPointButtons(false);
-        showMessage("The Game Has Drawn");
-    }
+   private void ifIsPossibleShowTheEndedGameInfoAndRestoreUI() {
+      if (!controller.theGameHasEnded())
+         return;
+      showToTheUsersTheWinnerPath();
+      showToTheUsersIfThereIsADraw();
+      endTheGame();
+   }
 
-    private void showToTheUsersTheWinnerPath() {
-        if (controller.theGameHasDrawn())
-            return;
-        try {
-            for (Point point : controller.getWinnerPoints())
-                findAButtonAt(point).setBackground(Color.RED);
-            showMessage("The game has a winner");
-        } catch (TicTacToeGame.HasNoWinner noWinner) {
-        } catch (TicTacToeGameApplication.ButtonNotFound notFound) {
-        }
-    }
+   private void endTheGame() {
+      setEnabledAllPointButtons(false);
+      setEnabledOptions(true);
+      enableDisableStartAndStopButton();
+   }
 
-    public JButton findAButtonAt(Point point) {
-        for (JButton button : pointButtons)
-            if (point.equals(button.getClientProperty(POINT)))
-                return button;
-        throw new TicTacToeGameApplication.ButtonNotFound();
-    }
+   private void showToTheUsersIfThereIsADraw() {
+      if (!controller.theGameHasDrawn())
+         return;
+      setEnabledAllPointButtons(false);
+      showMessage("The Game Has Drawn");
+   }
 
-    private void printTheMarkAt(JButton pressed) {
-        pressed.setText(controller.getLastMark().equals(NOUGHT) ? "0" : "X");
-        pressed.setBackground(controller.getLastMark().equals(NOUGHT) ? Color.GREEN : Color.YELLOW);
-    }
+   private void showToTheUsersTheWinnerPath() {
+      if (controller.theGameHasDrawn())
+         return;
+      try {
+         for (Point point : controller.getWinnerPoints())
+            findAButtonAt(point).setBackground(Color.RED);
+         showMessage("The game has a winner");
+      } catch (TicTacToeGame.HasNoWinner noWinner) {
+      } catch (TicTacToeGameApplication.ButtonNotFound notFound) {
+      }
+   }
 
-    private void putTheMarkAt(Point location) {
-        try {
-            controller.putTheNextMarkAt(location);
-        } catch (TicTacToeGame.CannotPlayTwiceInARow e) {
-            showMessage("You cannot play twice in a row");
-        } catch (TicTacToeGame.SpaceAlreadyFilled e) {
-            showMessage("This point is already marked");
-        }
-    }
+   public JButton findAButtonAt(Point point) {
+      for (JButton button : pointButtons)
+         if (point.equals(button.getClientProperty(POINT)))
+            return button;
+      throw new TicTacToeGameApplication.ButtonNotFound();
+   }
 
-    private void showMessage(String message) {
-        messageLabel.setText(message);
-    }
+   private void printTheMarkAt(JButton pressed) {
+      pressed.setText(controller.getLastMark().equals(NOUGHT) ? "0" : "X");
+      pressed.setBackground(controller.getLastMark().equals(NOUGHT) ? Color.GREEN : Color.YELLOW);
+   }
+
+   private void putTheMarkAt(Point location) {
+      try {
+         controller.putTheNextMarkAt(location);
+      } catch (TicTacToeGame.CannotPlayTwiceInARow e) {
+         showMessage("You cannot play twice in a row");
+      } catch (TicTacToeGame.SpaceAlreadyFilled e) {
+         showMessage("This point is already marked");
+      }
+   }
+
+   private void showMessage(String message) {
+      messageLabel.setText(message);
+   }
+
+   private void handleSelectionOfUseComputerAsOpponentCheckBox() {
+      computerMustPlayFirstCheckBox.setSelected(false);
+      computerMustPlayFirstCheckBox.setEnabled(useComputerAsOpponentCheckBox.isSelected());
+   }
 }

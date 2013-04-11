@@ -12,6 +12,17 @@ public class WinnerPoints implements Iterable<Point> {
       private static final long serialVersionUID = 1L;
    }
 
+   public static List<WinnerPoints> allPossibleWinnerPoints() {
+      return Arrays.<WinnerPoints> asList(topRow(),
+                                          middleRow(),
+                                          bottomRow(),
+                                          leftColumn(),
+                                          centerColumn(),
+                                          rightColumn(),
+                                          clockWiseDiagonal(),
+                                          antiClockWiseDiagonal());
+   }
+
    public static WinnerPoints topRow() {
       return new WinnerPoints(TOP_LEFT, TOP_CENTER, TOP_RIGHT);
    }

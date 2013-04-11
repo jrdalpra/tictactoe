@@ -8,14 +8,14 @@ import com.wolkenapps.tictactoe.ia.MarkPutter;
 
 public class MiddleCenterMarkPutter implements MarkPutter {
 
-    @Override
-    public void putAMarkUsing(TicTacToeGameController controller) {
-        controller.putTheNextMarkAt(MIDDLE_CENTER);
-    }
+   @Override
+   public void putAMarkUsing(TicTacToeGameController controller) {
+      controller.putTheNextMarkAt(MIDDLE_CENTER);
+   }
 
-    @Override
-    public Point getThePointUsed() {
-        return MIDDLE_CENTER;
-    }
+   @Override
+   public Point getThePointUsed() {
+      return MIDDLE_CENTER;
+   }
 
 }

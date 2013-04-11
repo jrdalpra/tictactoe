@@ -5,8 +5,12 @@ import com.wolkenapps.tictactoe.TicTacToeGameController;
 
 public interface MarkPutter {
 
-    void putAMarkUsing(TicTacToeGameController controller);
+   @SuppressWarnings("serial")
+   public static class CannotPutAMark extends RuntimeException {
+   }
 
-    Point getThePointUsed();
+   void putAMarkUsing(TicTacToeGameController controller);
+
+   Point getThePointUsed();
 
 }
