@@ -130,4 +130,8 @@ public class TicTacToeGame {
       return !hasAWinner() && getSpacesNumberWithMark(BLANK) == 0;
    }
 
+   public boolean isAllBlank() {
+      return getSpacesNumberWithMark(BLANK) == 9;
+   }
+
 }

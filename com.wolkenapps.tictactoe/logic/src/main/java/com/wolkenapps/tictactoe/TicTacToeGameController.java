@@ -71,4 +71,8 @@ public class TicTacToeGameController {
         mark = null;
     }
 
+   public boolean isFirstMove() {
+      return game.isAllBlank();
+   }
+
 }
