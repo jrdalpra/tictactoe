@@ -304,7 +304,7 @@ public class TicTacToeGameApplication {
       try {
          for (Point point : controller.getWinnerPoints())
             findAButtonAt(point).setBackground(Color.RED);
-         showMessage("The game has a winner");
+         showMessage("The GAME has a winner");
       } catch (TicTacToeGame.HasNoWinner noWinner) {
       } catch (TicTacToeGameApplication.ButtonNotFound notFound) {
       }
